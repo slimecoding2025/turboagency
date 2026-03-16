@@ -9,6 +9,8 @@
 
 <link rel="stylesheet" href="style.css">
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 </head>
 
 <body>
@@ -33,20 +35,66 @@
 
 <h2>Start Your Project</h2>
 
-<form action="https://formspree.io/f/mvzwbnyz" method="POST">
-  <input type="text" name="name" placeholder="Your Name" required>
-  <input type="email" name="email" placeholder="Your Email" required>
-  <select name="service">
-    <option>Website Development</option>
-    <option>AI Chatbot</option>
-    <option>Mobile App</option>
-    <option>Website Fix</option>
-  </select>
-  <textarea name="message" placeholder="Describe your project" required></textarea>
-  <button type="submit">Send Request</button>
+<form id="contactForm">
+
+<input type="text" id="name" placeholder="Your Name" required>
+
+<input type="email" id="email" placeholder="Your Email" required>
+
+<select id="service">
+
+<option>Website Development</option>
+<option>AI Chatbot</option>
+<option>Mobile App</option>
+<option>Website Fix</option>
+
+</select>
+
+<textarea id="message" placeholder="Describe your project"></textarea>
+
+<button type="submit">Send Request</button>
+
 </form>
 
+<p id="status"></p>
+
 </section>
+
+
+<script>
+
+const supabaseClient = supabase.createClient(
+"https://djigbnajjyvjtqryemyz.supabase.co",
+"sb_publishable_aweqq2_RPJF_0uLgD_Mcag_OOgi2vbL"
+)
+
+const form = document.getElementById("contactForm")
+
+form.addEventListener("submit", async function(e){
+
+e.preventDefault()
+
+const name = document.getElementById("name").value
+const email = document.getElementById("email").value
+const service = document.getElementById("service").value
+const message = document.getElementById("message").value
+
+const { error } = await supabaseClient
+.from("requests")
+.insert([
+{ name: name, email: email, service: service, message: message }
+])
+
+if(error){
+document.getElementById("status").innerText = "Error sending request"
+}else{
+document.getElementById("status").innerText = "Request sent successfully!"
+form.reset()
+}
+
+})
+
+</script>
 
 </body>
 </html>

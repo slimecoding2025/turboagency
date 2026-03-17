@@ -61,8 +61,8 @@
 
 <script>
 const supabaseClient = supabase.createClient(
-  "https://djigbnajjyvjtqryemyz.supabase.co",  // رابط مشروعك
-  "sb_publishable_aweqq2_RPJF_0uLgD_Mcag_OOgi2vbL" // public anon key
+  "https://djigbnajjyvjtqryemyz.supabase.co",  
+  "sb_publishable_aweqq2_RPJF_0uLgD_Mcag_OOgi2vbL" 
 );
 
 const form = document.getElementById("contactForm");
@@ -72,13 +72,12 @@ form.addEventListener("submit", async function(e) {
 
   const name = document.getElementById("name").value;
   const email = document.getElementById("email").value;
-  const serviceValue = document.getElementById("service").value; // صححت ID
+  const serviceValue = document.getElementById("service").value; 
   const message = document.getElementById("message").value;
 
   const { error } = await supabaseClient
     .from("requests")
-    .insert([{ name, email, services: serviceValue, message }]); // العمود اسمه services
-
+    .insert([{ name, email, services: serviceValue, message }]);
   if (error) {
     document.getElementById("status").innerText = "Error sending request: " + error.message;
   } else {
